@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/PlotMapFragment">
+
+    <fragment
+        android:id="@+id/PlotMapFragment"
+        android:name="com.medical.mypolygonmap.Fragments.PlotMapFragment"
+        android:label="@string/fragment_map"
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.medical.mypolygonmap.Fragments.DetailFragment"
+        android:label="DetailFragment" />
+
+    <!--    <fragment-->
+<!--        android:id="@+id/DetailFragment"-->
+<!--        android:name="com.medical.mypolygonmap.Fragments.DetailFragment"-->
+<!--        android:label="@string/fragment_detail"-->
+<!--        tools:layout="@layout/fragment_detail">-->
+
+<!--    </fragment>-->
+
+</navigation>

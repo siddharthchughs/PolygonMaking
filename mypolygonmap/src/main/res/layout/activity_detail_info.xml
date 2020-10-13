@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.DetailInfoActivity">
+
+    <LinearLayout
+        android:id="@+id/layoutToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="3dp">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_back"
+            android:layout_gravity="center"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Detail"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/source_sans_pro"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/viewSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/tvCoordinateOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/source_code_pro_medium"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/viewSeparator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        />
+    <TextView
+        android:id="@+id/tvCoordinateTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/source_code_pro_medium"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/tvCoordinateOne"
+        app:layout_constraintStart_toStartOf="@id/tvCoordinateOne"
+        app:layout_constraintEnd_toEndOf="@id/tvCoordinateOne"
+        />
+    <TextView
+        android:id="@+id/tvCoordinateThree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/source_code_pro_medium"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/tvCoordinateTwo"
+        app:layout_constraintStart_toStartOf="@id/tvCoordinateTwo"
+        app:layout_constraintEnd_toEndOf="@id/tvCoordinateOne"
+        />
+    <TextView
+        android:id="@+id/tvCoordinateFour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/source_code_pro_medium"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/tvCoordinateThree"
+        app:layout_constraintStart_toStartOf="@id/tvCoordinateThree"
+        app:layout_constraintEnd_toEndOf="@id/tvCoordinateOne"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

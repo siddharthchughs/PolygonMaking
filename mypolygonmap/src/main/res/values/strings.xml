@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MyPolygonMap</string>
+    <string name="reset_label">Reset</string>
+    <string name="cancel_label">Cancel</string>
+    <string name="clear_label">Clear Plotted Points</string>
+    <string name="saved_items">Saved location count</string>
+    <string name="API_KEY">AIzaSyCiYYYeGOvOr9CwwgcZpalun753vJ2HWh4</string>
+    <string name="fragment_map">Map</string>
+    <string name="fragment_detail">Detail Info</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="undo_label">Undo Plotted</string>
+    <string name="search_label">Search</string>
+    <string name="Search_data">Input your Search</string>
+    <string name="detail_page">Detail</string>
+    <string name="title_activity_maps">Map</string>
+</resources>

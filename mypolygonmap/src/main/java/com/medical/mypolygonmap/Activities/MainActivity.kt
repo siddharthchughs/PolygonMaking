@@ -9,18 +9,17 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.fonts.FontFamily
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Vibrator
-import android.renderscript.ScriptGroup
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +43,7 @@ import java.lang.Math.toRadians
 
 
 class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
-    GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener,
+    GoogleMap.OnMapLongClickListener,
     OnMyLocationClickListener, OnMapReadyCallback,
     OnRequestPermissionsResultCallback, GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener,
@@ -66,8 +65,7 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
     lateinit var sharedPreferences: SharedPreferences
     private val sharedPrefFile = "kotlinsharedpreference"
     var mAnimationSet = AnimatorSet()
-
-
+    lateinit var seletShape: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,7 +103,6 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
         map.setOnMyLocationClickListener(this)
         map.uiSettings.isZoomControlsEnabled = true
         enableMyLocation()
-        map.setOnMapClickListener(this)
         map.setOnMapLongClickListener(this)
     }
 
@@ -190,36 +187,37 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
-    override fun onMapClick(point: LatLng?) {
-    }
-
     override fun onMapLongClick(point: LatLng?) {
         if (point != null) {
             Log.i("the", point.latitude.toString() + " " + point.longitude)
-            var polylineOptions = PolylineOptions()
+            val polylineOptions = PolylineOptions()
             polylineOptions.color(Color.RED)
             polylineOptions.zIndex(5F)
             polylineOptions.width(5f)
+            if (points!!.size <5){
                 points!!.add(point)
-            polylineOptions.addAll(points)
-            map.addPolyline(polylineOptions)
-
-            val circleOptions = CircleOptions()
-                .center(point)
-                .radius(8.0)
-                .strokeColor(Color.parseColor("#5D98F9"))
-                .fillColor(Color.parseColor("#2196f3"))
-            map.addCircle(circleOptions)
+                val circleOptions = CircleOptions()
+                    .center(point)
+                    .radius(9.0)
+                    .strokeColor(Color.parseColor("#5D98F9"))
+                    .fillColor(Color.parseColor("#2196f3"))
+                if(points!!.size<5){
+                    map.addCircle(circleOptions)
+                }
+                polylineOptions.addAll(points)
+                map.addPolyline(polylineOptions)
+                if(points!!.size==5){
+                    bt_ResetMap.let {
+                        it.isEnabled = true
+                        it.setBackgroundResource(R.drawable.bg_reset)
+                        it.setTextColor(Color.parseColor("#FFFFFF"))
+                    }
+                }
+            }
             val vb: Vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             vb.vibrate(100)
         }
-        bt_ResetMap.let {
-            it.isEnabled = true
-            it.setBackgroundResource(R.drawable.bg_reset)
-            it.setTextColor(Color.parseColor("#FFFFFF"))
-        }
         btDetail.isEnabled = true
-
     }
 
 
@@ -395,6 +393,10 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
                             )
                         )
                 )
+                val latitude: Float =  sharedPreferences.getFloat("coordinateOnelat", 0.0f)
+                val longitude: Float =  sharedPreferences.getFloat("coordinateOnelng", 0.0f)
+                val latLng = LatLng(latitude.toDouble(), longitude.toDouble())
+                map.animateCamera(CameraUpdateFactory.newLatLng(latLng))
             }
         }
     }

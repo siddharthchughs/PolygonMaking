@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
     private lateinit var map: GoogleMap
     private val PERMISSION_REQUEST_CODE: Int = 101
     var points: ArrayList<LatLng>? = null
-    val MIN_ZOOM = 5
     private lateinit var bt_ResetMap: Button
     var mLocationRequest: LocationRequest? = null
     var mGoogleApiClient: GoogleApiClient? = null
@@ -149,7 +148,7 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ),
-            PERMISSION_REQUEST_CODE
+            LOCATION_PERMISSION_REQUEST_CODE
         )
     }
 
@@ -168,7 +167,7 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
         grantResults: IntArray
     ) {
         when (requestCode) {
-            PERMISSION_REQUEST_CODE -> {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     enableMyLocation()
                 } else {
@@ -312,8 +311,8 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
                         editor.putFloat("coordinateThreelng", points!!.get(2).longitude.toFloat())
                         editor.putFloat("coordinateFourlat", points!!.get(3).latitude.toFloat())
                         editor.putFloat("coordinateFourlng", points!!.get(3).longitude.toFloat())
-                        editor.putFloat("coordinateFivelat", points!!.get(4).latitude.toFloat())
-                        editor.putFloat("coordinateFivelng", points!!.get(4).longitude.toFloat())
+                        editor.putFloat("coordinateFivelat", points!!.get(0).latitude.toFloat())
+                        editor.putFloat("coordinateFivelng", points!!.get(0).longitude.toFloat())
                         editor.apply()
                         editor.commit()
                     } else {

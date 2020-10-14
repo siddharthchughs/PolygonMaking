@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,10 +25,10 @@ class ProjectFragment : Fragment() {
     private lateinit var subjectrecyclerview : RecyclerView
     private lateinit var subjectViewModel: ProjectManagmentViewModel
     private lateinit var subejctadapter: ProjectDataRecycler
-    private lateinit var linearLayoutManager: LinearLayoutManager
     lateinit var db : DatabaseHelperManager
     private lateinit var editSearch: EditText
     private lateinit var filteredSearch:String
+    private lateinit var imgClear: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +38,7 @@ class ProjectFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_project, container, false)
        subjectrecyclerview = view.findViewById(R.id.subjectRecycler)
         editSearch = view.findViewById(R.id.editSearch)
+        imgClear = view.findViewById(R.id.ic_clear)
         subjectViewModel = ViewModelProviders.of(this).get(ProjectManagmentViewModel::class.java)
         subjectViewModel.monsterData.observe(requireActivity(), Observer { it ->
             db.addListItem(it)
@@ -52,6 +54,10 @@ class ProjectFragment : Fragment() {
             }
             override fun afterTextChanged(s: Editable) {}
         })
+
+        imgClear.setOnClickListener {
+            editSearch.setText("")
+        }
         return view
     }
 

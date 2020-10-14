@@ -47,16 +47,11 @@ class DatabaseHelperManager(context: Context?) : SQLiteOpenHelper(
                 "" + listItem.get(i).employeename + listItem.get(i).date
             )
             try {
-                if (listItem.size <0 || listItem.isEmpty()) {
                     values.put(COLUMN_SEARCH_NAME, listItem.get(i).employeename)
                     values.put(COLUMN_SEARCH_ID, listItem.get(i).employeeid)
                     values.put(COLUMN_SEARCH_PROJECT, listItem.get(i).projectName)
                     values.put(COLUMN_SEARCH_DATE, listItem.get(i).date)
                     db.insert(TABLE_SEARCH, COLUMN_SEARCH_ID, values)
-                }
-                else {
-                    print("data already exists")
-                }
             }catch (e: Exception){
                 e.printStackTrace()
             }
@@ -72,9 +67,7 @@ class DatabaseHelperManager(context: Context?) : SQLiteOpenHelper(
             val array_list = ArrayList<ProjectManagment>()
             val query = "SELECT * FROM " +TABLE_SEARCH
             val cursor = db.rawQuery(query, null)
-            val count = cursor.getInt(0)
                 if ( cursor.moveToFirst() ||cursor.count>0) {
-
                         val dt = ProjectManagment()
                         dt.employeename = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_NAME))
                         dt.employeeid = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_ID))
@@ -90,13 +83,12 @@ class DatabaseHelperManager(context: Context?) : SQLiteOpenHelper(
         }
 
 
-
     fun getSearch(searchName: String): List<ProjectManagment> {
         val query_search = "SELECT DISTINCT * FROM "+ TABLE_SEARCH+ " WHERE "+ COLUMN_SEARCH_NAME +" LIKE "+ "'%"+searchName+"%' "+ "ORDER BY "+ COLUMN_SEARCH_DATE+" ASC"
         val db = readableDatabase
         val cursor = db.rawQuery(query_search, null)
         val search_list = ArrayList<ProjectManagment>()
-        if (cursor.moveToFirst() || cursor.count>0) {
+        if (cursor.moveToFirst()) {
             run {
                 do {
                     val dt = ProjectManagment()

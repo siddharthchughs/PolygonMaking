@@ -1,4 +1,4 @@
-package com.medical.mypolygonmap.Activities
+package com.medical.mypolygonmap.Activities.Activities
 
 import android.os.Bundle
 import android.os.Parcelable

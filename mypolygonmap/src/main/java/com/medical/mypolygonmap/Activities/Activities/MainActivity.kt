@@ -1,4 +1,4 @@
-package com.medical.mypolygonmap.Activities
+package com.medical.mypolygonmap.Activities.Activities
 
 import android.Manifest
 import android.animation.AnimatorSet
@@ -194,24 +194,24 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
             polylineOptions.color(Color.RED)
             polylineOptions.zIndex(5F)
             polylineOptions.width(5f)
-            if (points!!.size <5){
+            if (points!=null){
                 points!!.add(point)
                 val circleOptions = CircleOptions()
                     .center(point)
                     .radius(9.0)
                     .strokeColor(Color.parseColor("#5D98F9"))
                     .fillColor(Color.parseColor("#2196f3"))
-                if(points!!.size<5){
+               // if(points!!.size<5){
                     map.addCircle(circleOptions)
-                }
+                //}
                 polylineOptions.addAll(points)
                 map.addPolyline(polylineOptions)
-                if(points!!.size==5){
+               // if(points!!.size==5){
                     bt_ResetMap.let {
                         it.isEnabled = true
                         it.setBackgroundResource(R.drawable.bg_reset)
                         it.setTextColor(Color.parseColor("#FFFFFF"))
-                    }
+                 //   }
                 }
             }
             val vb: Vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -301,18 +301,20 @@ class MainActivity : AppCompatActivity(), OnMyLocationButtonClickListener,
                         intent.putExtra("list", points)
                         startActivity(intent)
                         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                        editor.putFloat("coordinateOnelat", points!!.get(0).latitude.toFloat())
-                        editor.putFloat("coordinateOnelng", points!!.get(0).longitude.toFloat())
-                        editor.putFloat("coordinateTwolat", points!!.get(1).latitude.toFloat())
-                        editor.putFloat("coordinateTwolng", points!!.get(1).longitude.toFloat())
-                        editor.putFloat("coordinateThreelat", points!!.get(2).latitude.toFloat())
-                        editor.putFloat("coordinateThreelng", points!!.get(2).longitude.toFloat())
-                        editor.putFloat("coordinateFourlat", points!!.get(3).latitude.toFloat())
-                        editor.putFloat("coordinateFourlng", points!!.get(3).longitude.toFloat())
-                        editor.putFloat("coordinateFivelat", points!!.get(0).latitude.toFloat())
-                        editor.putFloat("coordinateFivelng", points!!.get(0).longitude.toFloat())
-                        editor.apply()
-                        editor.commit()
+                     for(i in 0..points!!.size step 1) {
+                         editor.putFloat("coordinateOnelat", points!!.get(i).latitude.toFloat())
+                         editor.putFloat("coordinateOnelng", points!!.get(i).longitude.toFloat())
+//                         editor.putFloat("coordinateTwolat", points!!.get(1).latitude.toFloat())
+//                         editor.putFloat("coordinateTwolng", points!!.get(1).longitude.toFloat())
+//                         editor.putFloat("coordinateThreelat", points!!.get(2).latitude.toFloat())
+//                         editor.putFloat("coordinateThreelng", points!!.get(2).longitude.toFloat())
+//                         editor.putFloat("coordinateFourlat", points!!.get(3).latitude.toFloat())
+//                         editor.putFloat("coordinateFourlng", points!!.get(3).longitude.toFloat())
+//                         editor.putFloat("coordinateFivelat", points!!.get(0).latitude.toFloat())
+//                         editor.putFloat("coordinateFivelng", points!!.get(0).longitude.toFloat())
+                         editor.apply()
+                         editor.commit()
+                     }
                     } else {
                         Toast.makeText(
                             applicationContext,

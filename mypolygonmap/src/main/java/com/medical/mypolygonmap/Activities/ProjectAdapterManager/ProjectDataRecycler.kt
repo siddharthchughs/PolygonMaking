@@ -1,7 +1,9 @@
 package com.medical.mypolygonmap.Activities.ProjectAdapterManager
 
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,11 +36,16 @@ class ProjectDataRecycler(val context: Context, val monsterData: List<ProjectMan
            employeeProject?.let {
             it.text =    monsterDataCollection.projectName
            }
-           employeeDate.let {
-//               val df = DateFormat()
-  //             DateFormat.format("yyyy-MM-dd hh:mm:ss a", Date())
-               it.text= monsterDataCollection.date
+           projectDate.let {
+//               val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+               val outputFormat = SimpleDateFormat("yyyy-MM-dd")
+               val date = outputFormat.parse(monsterDataCollection.date)
+               val formattedDate = outputFormat.format(date)
+               Log.e("the", "date is" + formattedDate)
+       //       it.text= monsterDataCollection.date
+              it.text= formattedDate.toString()
            }
+
            holder.itemView.setOnClickListener {
 //               itemListener.onMonsteritemListener(monsterDataCollection)
            }
@@ -48,7 +55,8 @@ class ProjectDataRecycler(val context: Context, val monsterData: List<ProjectMan
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameText = itemView.findViewById<TextView>(R.id.nameText)
         val employeeProject = itemView.findViewById<TextView>(R.id.projectName)
-        val employeeDate = itemView.findViewById<TextView>(R.id.periodDate)
+        val projectDate = itemView.findViewById<TextView>(R.id.projectDate)
+        val timeSpent = itemView.findViewById<TextView>(R.id.periodTime)
     }
 
     interface MonsterClickListener{

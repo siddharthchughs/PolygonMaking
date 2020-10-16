@@ -11,6 +11,7 @@ import com.medical.mytestapp.LocalDbManager.DatabaseContracter.FeedEntry.COLUMN_
 import com.medical.mytestapp.LocalDbManager.DatabaseContracter.FeedEntry.COLUMN_SEARCH_NAME
 import com.medical.mytestapp.LocalDbManager.DatabaseContracter.FeedEntry.COLUMN_SEARCH_PROJECT
 import com.medical.mytestapp.LocalDbManager.DatabaseContracter.FeedEntry.TABLE_SEARCH
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DatabaseHelperManager(context: Context?) : SQLiteOpenHelper(
@@ -41,16 +42,18 @@ class DatabaseHelperManager(context: Context?) : SQLiteOpenHelper(
     fun addListItem(listItem: List<ProjectManagment>) {
         val db = this.writableDatabase
         val values = ContentValues()
+
         for (i in listItem.indices) {
-            Log.e(
-                "value inserting kotlin",
-                "" + listItem.get(i).employeename + listItem.get(i).date
-            )
+            val inputFormat = android.icu.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            val outputFormat = android.icu.text.SimpleDateFormat("yyyy-MM-dd")
+            val date = inputFormat.parse(listItem.get(i).date)
+            val formattedDate = outputFormat.format(date)
+            Log.e("value inserting kotlin", "" + listItem.get(i).employeename + formattedDate)
             try {
-                    values.put(COLUMN_SEARCH_NAME, listItem.get(i).employeename)
+                values.put(COLUMN_SEARCH_NAME, listItem.get(i).employeename)
                     values.put(COLUMN_SEARCH_ID, listItem.get(i).employeeid)
                     values.put(COLUMN_SEARCH_PROJECT, listItem.get(i).projectName)
-                    values.put(COLUMN_SEARCH_DATE, listItem.get(i).date)
+                    values.put(COLUMN_SEARCH_DATE,formattedDate)
                     db.insert(TABLE_SEARCH, COLUMN_SEARCH_ID, values)
             }catch (e: Exception){
                 e.printStackTrace()
@@ -72,6 +75,7 @@ class DatabaseHelperManager(context: Context?) : SQLiteOpenHelper(
                         dt.employeename = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_NAME))
                         dt.employeeid = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_ID))
                         dt.projectName = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_PROJECT))
+
                         Log.i("the", "data" + dt.projectName)
                         array_list.add(dt)
 
@@ -88,6 +92,32 @@ class DatabaseHelperManager(context: Context?) : SQLiteOpenHelper(
         val db = readableDatabase
         val cursor = db.rawQuery(query_search, null)
         val search_list = ArrayList<ProjectManagment>()
+           if (cursor.moveToFirst()) {
+               run {
+                   do {
+                       val dt = ProjectManagment()
+                       dt.employeename = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_NAME))
+                       dt.date = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_DATE))
+                       dt.projectName = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_PROJECT))
+                       search_list.add(dt)
+                       Log.i("the", "data" + dt)
+                   } while (cursor.moveToNext())
+               }
+           } else {
+               Log.i("the", "data doesn't exists")
+           }
+        db.close()
+        cursor.close()
+        return search_list
+    }
+
+    fun getSearchByMonth(monthName: String):List<ProjectManagment>{
+
+        val query_search = "SELECT DISTINCT * FROM "+ TABLE_SEARCH+ " WHERE "+ COLUMN_SEARCH_DATE+"="+"'"+monthName+"'"
+       Log.i("the ","query"+ query_search)
+        val db = readableDatabase
+        val cursor = db.rawQuery(query_search, null)
+        val search_list = ArrayList<ProjectManagment>()
         if (cursor.moveToFirst()) {
             run {
                 do {
@@ -100,13 +130,35 @@ class DatabaseHelperManager(context: Context?) : SQLiteOpenHelper(
                 }while (cursor.moveToNext())
             }
         }
-        else{
-            Log.i("the", "data doesn't exists")
-        }
         db.close()
         cursor.close()
         return search_list
     }
+//    fun getSearchbyMonthName(monthName: String):List<ProjectManagment>{
+//
+//        val query_search = "SELECT DISTINCT * FROM "+ TABLE_SEARCH+ " WHERE "+ COLUMN_SEARCH_DATE+"="+"'"+monthName+"'"
+//       Log.i("the ","query"+ query_search)
+//        val db = readableDatabase
+//        val cursor = db.rawQuery(query_search, null)
+//        val search_list = ArrayList<ProjectManagment>()
+//        if (cursor.moveToFirst()) {
+//            run {
+//                do {
+//                    val dt = ProjectManagment()
+//                    dt.employeename = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_NAME))
+//                    dt.date = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_DATE))
+//                    dt.projectName = cursor.getString(cursor.getColumnIndex(COLUMN_SEARCH_PROJECT))
+//                    search_list.add(dt)
+//                    Log.i("the", "data" + dt)
+//                }while (cursor.moveToNext())
+//            }
+//        }
+//        db.close()
+//        cursor.close()
+//        return search_list
+//    }
+
+
 
     companion object {
         const val DATABASE_VERSION = 2
